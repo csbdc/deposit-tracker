@@ -3,4 +3,5 @@
 !.dockerignore
 !index.html
 !favicon.svg
+!apple-touch-icon.png
 !server.mjs

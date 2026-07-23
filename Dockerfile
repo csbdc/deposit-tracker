@@ -2,7 +2,7 @@ FROM node:22-alpine
 
 WORKDIR /app
 
-COPY --chown=node:node index.html favicon.svg server.mjs ./
+COPY --chown=node:node index.html favicon.svg apple-touch-icon.png server.mjs ./
 
 RUN mkdir -p /data && chown node:node /data
 
