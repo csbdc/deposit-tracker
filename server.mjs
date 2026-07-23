@@ -8,6 +8,7 @@ const DATA_DIR = process.env.DATA_DIR || "/data";
 const STATE_FILE = join(DATA_DIR, "state.json");
 const APP_DIR = dirname(fileURLToPath(import.meta.url));
 const INDEX_FILE = join(APP_DIR, "index.html");
+const FAVICON_FILE = join(APP_DIR, "favicon.svg");
 const DEFAULT_STATE = {
   target: 30000,
   saved: 7500,
@@ -84,6 +85,7 @@ async function readJsonBody(request) {
 }
 
 const indexHtml = await readFile(INDEX_FILE);
+const faviconSvg = await readFile(FAVICON_FILE);
 
 const server = createServer(async (request, response) => {
   const url = new URL(request.url, `http://${request.headers.host || "localhost"}`);
@@ -114,6 +116,17 @@ const server = createServer(async (request, response) => {
         "Content-Length": indexHtml.length
       });
       response.end(request.method === "HEAD" ? undefined : indexHtml);
+      return;
+    }
+
+    if (url.pathname === "/favicon.svg" && (request.method === "GET" || request.method === "HEAD")) {
+      response.writeHead(200, {
+        ...securityHeaders,
+        "Cache-Control": "public, max-age=86400",
+        "Content-Type": "image/svg+xml; charset=utf-8",
+        "Content-Length": faviconSvg.length
+      });
+      response.end(request.method === "HEAD" ? undefined : faviconSvg);
       return;
     }
 

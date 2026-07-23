@@ -2,4 +2,5 @@
 !Dockerfile
 !.dockerignore
 !index.html
+!favicon.svg
 !server.mjs
