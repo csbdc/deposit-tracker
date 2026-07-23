@@ -1,0 +1,23 @@
+services:
+  deposit-tracker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: house-deposit-tracker:local
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    read_only: true
+    environment:
+      DATA_DIR: /data
+    volumes:
+      - deposit-data:/data
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=16m
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+
+volumes:
+  deposit-data:
